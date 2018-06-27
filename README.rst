@@ -7,7 +7,9 @@ This repository contains a buildout. Prepare it by running::
 
 and then run it with::
 
-    bin/buildout
+    bin/buildout -c dev.cfg  (for development environment)
+
+    bin/buildout -c prod.cfg  (for production environment)
 
 After that, you can run the actual migration::
 

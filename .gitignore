@@ -1,3 +1,7 @@
+# Project specific
+oca.cfg
+.pytest_cache/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -21,6 +25,7 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+*.eggs
 
 # Installer logs
 pip-log.txt
@@ -36,9 +41,22 @@ coverage.xml
 
 # Translations
 *.mo
+*.pot
 
 # Pycharm
 .idea
+
+# Eclipse
+.settings
+
+# Visual Studio cache/options directory
+.vs/
+
+# OSX Files
+.DS_Store
+
+# Django stuff:
+*.log
 
 # Mr Developer
 .mr.developer.cfg
@@ -50,13 +68,13 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
-doc/build/
 
 # Backup files
 *~
 *.swp
 
 # Odoo recipe
+!static/lib/
 anybox.recipe.odoo
 etc
 upgrade.py
