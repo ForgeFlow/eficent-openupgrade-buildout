@@ -96,6 +96,20 @@ def set_not_ported_modules_to_installed(conn, cr):
     conn.commit()
 
 
+def update_company_in_timesheets(conn, cr):
+    print("""set company for all timesheets""")
+
+    cr.execute("""
+            UPDATE hr_timesheet_sheet hrts
+            SET company_id=(
+                SELECT hre.company_id
+                FROM hr_employee as hre
+                WHERE hrts.employee_id = hre.id
+                LIMIT 1
+            )
+        """)
+    conn.commit()
+
 def main():
     # Define our connection string
     conn_string = """dbname=%s user=%s password=%s host=%s port=%s""" % (
@@ -112,7 +126,7 @@ def main():
     # to perform queries
     cr = conn.cursor()
     print("Connected!\n")
-
+    update_company_in_timesheets(conn, cr)
     disable_inherit_unported_modules(conn, cr)
     set_not_ported_modules_to_installed(conn, cr)
 

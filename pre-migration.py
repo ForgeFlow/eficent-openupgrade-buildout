@@ -65,7 +65,8 @@ for a in options[:]:
 
 
 def pre_install_modules(conn, cr):
-    for module in ["database_cleanup", "base_technical_features"]:
+    for module in ["database_cleanup", "base_technical_features",
+                   "account_financial_report"]:
         cr.execute("""
             SELECT id
             FROM ir_module_module
@@ -76,6 +77,50 @@ def pre_install_modules(conn, cr):
             INSERT INTO ir_module_module (name, state)
             VALUES ('%s', 'to install')
         """ % module)
+    conn.commit()
+
+
+def remove_old_tables(conn, cr):
+
+    cr.execute("""
+            SELECT to_regclass('project_issue')
+        """)
+    if not cr.fetchone():
+        return
+    cr.execute("""
+        DROP TABLE project_issue;
+    """)
+    conn.commit()
+
+
+def update_views(conn, cr):
+
+    cr.execute(""" UPDATE ir_act_window
+    SET src_model = ''
+    where name = 'Run Reordering Rules'""")
+
+    cr.execute("""DELETE FROM ir_act_window
+    WHERE res_model = 'report_timesheet.user'""")
+
+    cr.execute("""DELETE FROM ir_act_window
+    WHERE res_model = 'hr.timesheet.invoice.create'""")
+
+    cr.execute("""DELETE FROM ir_act_window
+        WHERE res_model = 'hr.timesheet.invoice.create.final'""")
+
+    cr.execute("""DELETE FROM ir_act_window
+    WHERE res_model = 'report_timesheet.account'""")
+
+    cr.execute("""DELETE FROM ir_act_window
+    WHERE res_model = 'report_timesheet.invoice'""")
+
+    cr.execute("""DELETE FROM ir_ui_view
+    WHERE name='account.invoice.select.contract'""")
+
+    cr.execute("""DELETE FROM ir_ui_view
+    WHERE arch_fs='hr_timesheet_task/views/hr_timesheet_assets.xml'""")
+
+    conn.commit()
 
 
 def main():
@@ -96,6 +141,8 @@ def main():
     print("Connected!\n")
 
     pre_install_modules(conn, cr)
+    remove_old_tables(conn, cr)
+    update_views(conn, cr)
 
 
 if __name__ == "__main__":
