@@ -81,46 +81,46 @@ def pre_install_modules(conn, cr):
 
 
 def remove_old_tables(conn, cr):
-
-    cr.execute("""
-            SELECT to_regclass('project_issue')
-        """)
-    if not cr.fetchone():
-        return
-    cr.execute("""
-        DROP TABLE project_issue;
-    """)
-    conn.commit()
+    return True
+    # cr.execute("""
+    #         SELECT to_regclass('project_issue')
+    #     """)
+    # if not cr.fetchone():
+    #     return
+    # cr.execute("""
+    #     DROP TABLE project_issue;
+    # """)
+    # conn.commit()
 
 
 def update_views(conn, cr):
-
-    cr.execute(""" UPDATE ir_act_window
-    SET src_model = ''
-    where name = 'Run Reordering Rules'""")
-
-    cr.execute("""DELETE FROM ir_act_window
-    WHERE res_model = 'report_timesheet.user'""")
-
-    cr.execute("""DELETE FROM ir_act_window
-    WHERE res_model = 'hr.timesheet.invoice.create'""")
-
-    cr.execute("""DELETE FROM ir_act_window
-        WHERE res_model = 'hr.timesheet.invoice.create.final'""")
-
-    cr.execute("""DELETE FROM ir_act_window
-    WHERE res_model = 'report_timesheet.account'""")
-
-    cr.execute("""DELETE FROM ir_act_window
-    WHERE res_model = 'report_timesheet.invoice'""")
-
-    cr.execute("""DELETE FROM ir_ui_view
-    WHERE name='account.invoice.select.contract'""")
-
-    cr.execute("""DELETE FROM ir_ui_view
-    WHERE arch_fs='hr_timesheet_task/views/hr_timesheet_assets.xml'""")
-
-    conn.commit()
+    return True
+    # cr.execute(""" UPDATE ir_act_window
+    # SET src_model = ''
+    # where name = 'Run Reordering Rules'""")
+    #
+    # cr.execute("""DELETE FROM ir_act_window
+    # WHERE res_model = 'report_timesheet.user'""")
+    #
+    # cr.execute("""DELETE FROM ir_act_window
+    # WHERE res_model = 'hr.timesheet.invoice.create'""")
+    #
+    # cr.execute("""DELETE FROM ir_act_window
+    #     WHERE res_model = 'hr.timesheet.invoice.create.final'""")
+    #
+    # cr.execute("""DELETE FROM ir_act_window
+    # WHERE res_model = 'report_timesheet.account'""")
+    #
+    # cr.execute("""DELETE FROM ir_act_window
+    # WHERE res_model = 'report_timesheet.invoice'""")
+    #
+    # cr.execute("""DELETE FROM ir_ui_view
+    # WHERE name='account.invoice.select.contract'""")
+    #
+    # cr.execute("""DELETE FROM ir_ui_view
+    # WHERE arch_fs='hr_timesheet_task/views/hr_timesheet_assets.xml'""")
+    #
+    # conn.commit()
 
 
 def main():
