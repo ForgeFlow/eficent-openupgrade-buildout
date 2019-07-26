@@ -123,6 +123,16 @@ def update_views(conn, cr):
     # conn.commit()
 
 
+def fix_wrong_data(conn, cr):
+    cr.execute("""
+        UPDATE account_voucher av
+        SET company_id = aj.company_id
+        FROM account_journal aj
+        WHERE av.journal_id = aj.id
+    """)
+    conn.commit()
+
+
 def main():
     # Define our connection string
     conn_string = """dbname=%s user=%s password=%s host=%s port=%s""" % (
@@ -142,6 +152,7 @@ def main():
 
     pre_install_modules(conn, cr)
     remove_old_tables(conn, cr)
+    fix_wrong_data(conn, cr)
     update_views(conn, cr)
 
 
