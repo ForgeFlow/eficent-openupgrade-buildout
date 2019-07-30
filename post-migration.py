@@ -110,6 +110,20 @@ def update_company_in_timesheets(conn, cr):
         """)
     conn.commit()
 
+
+def remove_original_website_menus_pages(conn, cr):
+    print("""remove_original_website_menus_pages""")
+    cr.execute("""
+            DELETE FROM website_page
+            WHERE website_id in (1, Null)            
+        """)
+    cr.execute("""
+            DELETE FROM website_menu
+            WHERE website_id in (1, Null)            
+        """)
+    conn.commit()
+
+
 def main():
     # Define our connection string
     conn_string = """dbname=%s user=%s password=%s host=%s port=%s""" % (
@@ -129,7 +143,7 @@ def main():
     update_company_in_timesheets(conn, cr)
     disable_inherit_unported_modules(conn, cr)
     set_not_ported_modules_to_installed(conn, cr)
-
+    remove_original_website_menus_pages(conn, cr)
 
 if __name__ == "__main__":
     main()
